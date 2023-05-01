@@ -1,0 +1,17 @@
+<ul id="items" class="list-group">
+  <li class="list-group-item">Item 1</li>
+  <li class="list-group-item">Item 2</li>
+  <li class="list-group-item">Item 3</li>
+  <li class="list-group-item">Item 4</li>
+  <li class="list-group-item" id="new-item">New Item</li>
+</ul>
+
+<script>
+  const newItem = document.createElement('li');
+  newItem.textContent = 'New Item';
+  newItem.id = 'new-item'; // add an id attribute
+  document.getElementById('items').appendChild(newItem);
+
+  const newItemEl = document.getElementById('new-item');
+  newItemEl.style.color = 'red'; // edit the element's style
+</script>
