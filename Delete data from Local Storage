@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact List</title>
+</head>
+<body>
+    <h1>Contact List</h1>
+    <ul id="contact-list">
+        <!-- List of contacts will be added here dynamically -->
+    </ul>
+
+    <script src="script.js"></script>
+</body>
+</html>
+document.addEventListener("DOMContentLoaded", function () {
+    // Sample contact data (you can load it from local storage or an API)
+    const contacts = [
+        { id: 1, name: "John Doe", email: "john@example.com" },
+        { id: 2, name: "Jane Smith", email: "jane@example.com" },
+        { id: 3, name: "Bob Johnson", email: "bob@example.com" },
+    ];
+
+    // Function to display contacts in the UI
+    function displayContacts() {
+        const contactList = document.getElementById("contact-list");
+        contactList.innerHTML = "";
+
+        contacts.forEach((contact) => {
+            const listItem = document.createElement("li");
+            listItem.innerHTML = `
+                <span>${contact.name} - ${contact.email}</span>
+                <button class="delete-button" data-id="${contact.id}">Delete</button>
+            `;
+            contactList.appendChild(listItem);
+        });
+
+        // Attach event listeners to delete buttons
+        const deleteButtons = document.querySelectorAll(".delete-button");
+        deleteButtons.forEach((button) => {
+            button.addEventListener("click", deleteContact);
+        });
+    }
+
+    // Function to delete a contact
+    function deleteContact(event) {
+        const contactId = parseInt(event.target.getAttribute("data-id"));
+        const indexToDelete = contacts.findIndex((contact) => contact.id === contactId);
+
+        if (indexToDelete !== -1) {
+            contacts.splice(indexToDelete, 1);
+            displayContacts(); // Refresh the UI
+            updateLocalStorage(); // Update local storage
+        }
+    }
+
+    // Function to update local storage with the current contacts
+    function updateLocalStorage() {
+        localStorage.setItem("contacts", JSON.stringify(contacts));
+    }
+
+    // Initialize the UI
+    displayContacts();
+});
